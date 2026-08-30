@@ -1,0 +1,10 @@
+{
+  "name": "@vmc-hmi/server",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "echo \"server: nothing to build yet\"",
+    "test": "echo \"server: no tests yet\""
+  }
+}
