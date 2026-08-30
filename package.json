@@ -1,6 +1,7 @@
 {
   "name": "vmc-operator-hmi",
   "private": true,
+  "type": "module",
   "version": "1.0.0",
   "description": "VMC Operator HMI - Startup Guidance (Primeform Labs technical assignment)",
   "workspaces": [
@@ -9,9 +10,10 @@
     "packages/client"
   ],
   "scripts": {
-    "build": "npm run build --workspace=shared && npm run build --workspace=server && npm run build --workspace=client",
-    "test": "npm run test --workspace=server",
-    "start": "npm run start --workspace=server"
+    "build": "npm run build --workspace=@vmc-hmi/shared && npm run build --workspace=@vmc-hmi/server && npm run build --workspace=@vmc-hmi/client",
+    "test": "vitest run",
+    "dev:server": "npm run dev --workspace=@vmc-hmi/server",
+    "start": "npm run start --workspace=@vmc-hmi/server"
   },
   "engines": {
     "node": ">=20"
