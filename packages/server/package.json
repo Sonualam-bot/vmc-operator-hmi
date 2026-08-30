@@ -10,6 +10,14 @@
     "start": "node dist/server.js"
   },
   "dependencies": {
-    "@vmc-hmi/shared": "*"
+    "@vmc-hmi/shared": "*",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.9.4"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6"
   }
 }
