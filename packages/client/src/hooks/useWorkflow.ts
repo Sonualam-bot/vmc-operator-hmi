@@ -16,6 +16,11 @@ export interface UseWorkflowResult {
   reset: () => void
 }
 
+// A real request can resolve in a couple of milliseconds, which is faster
+// than a spinner can actually be seen — enforce a floor so the loading
+// state always renders as a visible, legible indicator rather than a flash.
+const MIN_PENDING_MS = 300
+
 export function useWorkflow(client: IWorkflowClient): UseWorkflowResult {
   const [state, setState] = useState<WorkflowState | null>(null)
   const [loading, setLoading] = useState(true)
@@ -30,14 +35,22 @@ export function useWorkflow(client: IWorkflowClient): UseWorkflowResult {
     pendingRef.current = true
     setPending(true)
     setError(null)
+    const startedAt = Date.now()
+
     action()
       .then(setState)
       .catch((err: unknown) => {
         setError(err instanceof Error ? err.message : 'Something went wrong')
       })
       .finally(() => {
-        pendingRef.current = false
-        setPending(false)
+        const remaining = MIN_PENDING_MS - (Date.now() - startedAt)
+        setTimeout(
+          () => {
+            pendingRef.current = false
+            setPending(false)
+          },
+          remaining > 0 ? remaining : 0,
+        )
       })
   }, [])
 
