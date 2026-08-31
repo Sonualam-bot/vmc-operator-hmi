@@ -11,7 +11,10 @@ interface OperationStageProps {
 export function OperationStage({ state, onStart, onStop }: OperationStageProps) {
   return (
     <div className="flex flex-col items-center gap-8 text-center">
-      <div className="text-2xl font-bold text-slate-900">{state.scenario.operationName}</div>
+      <div>
+        <div className="text-2xl font-bold text-slate-900">{state.scenario.operationName}</div>
+        <div className="mt-1 text-sm text-slate-500">Qty {state.scenario.quantity}</div>
+      </div>
       <StatusBadge status={state.operationStatus} />
 
       {state.operationStatus === OperationStatus.Running ? (
