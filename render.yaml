@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: vmc-operator-hmi
+    runtime: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm run start
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: NODE_VERSION
+        value: 20.19.0

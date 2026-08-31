@@ -98,3 +98,42 @@ Single Render.com Web Service running `npm run build` / `npm run start`,
 backed by a MongoDB Atlas free cluster (`MONGODB_URI` env var). A GitHub
 Actions workflow pings `/api/health` on a schedule to keep the free Render
 instance from idling out between reviews.
+
+### 1. MongoDB Atlas (free M0 cluster)
+
+1. Create a free account/cluster at https://www.mongodb.com/cloud/atlas
+2. Database Access → add a database user (username/password auth)
+3. Network Access → allow access from anywhere (`0.0.0.0/0`) so Render can connect
+4. Get the connection string ("Connect" → "Drivers"), e.g.
+   `mongodb+srv://<user>:<password>@<cluster>.mongodb.net/vmc-operator-hmi`
+
+### 2. Render.com Web Service
+
+Repo includes `render.yaml`, so Render can pick it up as a Blueprint:
+
+1. New → Blueprint, connect the `vmc-operator-hmi` GitHub repo
+2. It reads `render.yaml` (build `npm run build`, start `npm run start`, free plan)
+3. Set the `MONGODB_URI` env var to the Atlas connection string from step 1
+   (this field is intentionally left blank in `render.yaml` — Render prompts
+   for it since `sync: false`)
+4. Deploy. Render assigns a URL like `https://vmc-operator-hmi.onrender.com`
+
+Alternatively, skip the Blueprint and create a plain Web Service manually
+with the same build/start commands and env var.
+
+### 3. Keep-alive cron
+
+Render's free tier spins a web service down after ~15 minutes of inactivity,
+which would cold-start on a reviewer's first click. `.github/workflows/keep-alive.yml`
+pings `/api/health` every 10 minutes via GitHub Actions to prevent that:
+
+1. Repo → Settings → Secrets and variables → Actions → Variables
+2. Add a repository variable `RENDER_APP_URL` set to the deployed URL (no
+   trailing slash), e.g. `https://vmc-operator-hmi.onrender.com`
+3. The workflow runs automatically on schedule; it can also be triggered
+   manually from the Actions tab (`workflow_dispatch`)
+
+GitHub Actions' schedule can drift by a few minutes under load; if the app
+still cold-starts occasionally, a no-signup fallback like
+[cron-job.org](https://cron-job.org) or [UptimeRobot](https://uptimerobot.com)
+pinging the same `/api/health` URL works as a backup.
