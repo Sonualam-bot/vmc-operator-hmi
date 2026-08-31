@@ -4,11 +4,12 @@ import { SingleItemChecklist } from '../shared/SingleItemChecklist'
 
 interface ToolsStageProps {
   items: RequiredTool[]
+  pending: boolean
   onConfirm: (id: string) => void
   onNext: () => void
 }
 
-export function ToolsStage({ items, onConfirm, onNext }: ToolsStageProps) {
+export function ToolsStage({ items, pending, onConfirm, onNext }: ToolsStageProps) {
   const allConfirmed = items.every((item) => item.confirmed)
 
   return (
@@ -16,6 +17,7 @@ export function ToolsStage({ items, onConfirm, onNext }: ToolsStageProps) {
       <SingleItemChecklist
         items={items}
         itemNoun="tool"
+        pending={pending}
         onConfirm={onConfirm}
         renderItem={(tool) => ({
           title: `${tool.toolNumber} — ${tool.type}`,
@@ -23,7 +25,7 @@ export function ToolsStage({ items, onConfirm, onNext }: ToolsStageProps) {
         })}
       />
       {allConfirmed && (
-        <ActionButton variant="primary" onClick={onNext}>
+        <ActionButton variant="primary" loading={pending} onClick={onNext}>
           Next: Workpiece Setup
         </ActionButton>
       )}

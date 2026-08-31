@@ -19,10 +19,11 @@ const STAGE_INSTRUCTIONS: Record<Stage, string> = {
 
 interface StageShellProps extends PropsWithChildren {
   state: WorkflowState
+  pending: boolean
   onReset: () => void
 }
 
-export function StageShell({ state, onReset, children }: StageShellProps) {
+export function StageShell({ state, pending, onReset, children }: StageShellProps) {
   const currentIndex = STAGE_ORDER.indexOf(state.stage)
 
   return (
@@ -34,7 +35,8 @@ export function StageShell({ state, onReset, children }: StageShellProps) {
             <button
               type="button"
               onClick={onReset}
-              className="cursor-pointer text-xs font-medium text-slate-400 underline underline-offset-2 hover:text-slate-600"
+              disabled={pending}
+              className="cursor-pointer text-xs font-medium text-slate-400 underline underline-offset-2 hover:text-slate-600 disabled:cursor-not-allowed disabled:opacity-50"
             >
               Reset demo
             </button>

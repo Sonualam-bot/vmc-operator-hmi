@@ -4,11 +4,12 @@ import { SingleItemChecklist } from '../shared/SingleItemChecklist'
 
 interface MachineChecksStageProps {
   items: ChecklistItem[]
+  pending: boolean
   onConfirm: (id: string) => void
   onNext: () => void
 }
 
-export function MachineChecksStage({ items, onConfirm, onNext }: MachineChecksStageProps) {
+export function MachineChecksStage({ items, pending, onConfirm, onNext }: MachineChecksStageProps) {
   const allConfirmed = items.every((item) => item.confirmed)
 
   return (
@@ -16,11 +17,12 @@ export function MachineChecksStage({ items, onConfirm, onNext }: MachineChecksSt
       <SingleItemChecklist
         items={items}
         itemNoun="check"
+        pending={pending}
         onConfirm={onConfirm}
         renderItem={(item) => ({ title: item.label, detail: item.detail })}
       />
       {allConfirmed && (
-        <ActionButton variant="primary" onClick={onNext}>
+        <ActionButton variant="primary" loading={pending} onClick={onNext}>
           Next: Required Tools
         </ActionButton>
       )}

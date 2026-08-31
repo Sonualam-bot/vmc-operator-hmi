@@ -4,11 +4,12 @@ import { SingleItemChecklist } from '../shared/SingleItemChecklist'
 
 interface WorkpieceStageProps {
   items: ChecklistItem[]
+  pending: boolean
   onConfirm: (id: string) => void
   onNext: () => void
 }
 
-export function WorkpieceStage({ items, onConfirm, onNext }: WorkpieceStageProps) {
+export function WorkpieceStage({ items, pending, onConfirm, onNext }: WorkpieceStageProps) {
   const allConfirmed = items.every((item) => item.confirmed)
 
   return (
@@ -16,11 +17,12 @@ export function WorkpieceStage({ items, onConfirm, onNext }: WorkpieceStageProps
       <SingleItemChecklist
         items={items}
         itemNoun="item"
+        pending={pending}
         onConfirm={onConfirm}
         renderItem={(item) => ({ title: item.label, detail: item.detail })}
       />
       {allConfirmed && (
-        <ActionButton variant="primary" onClick={onNext}>
+        <ActionButton variant="primary" loading={pending} onClick={onNext}>
           Next: Ready Review
         </ActionButton>
       )}

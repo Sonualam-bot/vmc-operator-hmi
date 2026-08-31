@@ -4,11 +4,12 @@ import { StatusBadge } from '../shared/StatusBadge'
 
 interface OperationStageProps {
   state: WorkflowState
+  pending: boolean
   onStart: () => void
   onStop: () => void
 }
 
-export function OperationStage({ state, onStart, onStop }: OperationStageProps) {
+export function OperationStage({ state, pending, onStart, onStop }: OperationStageProps) {
   return (
     <div className="flex flex-col items-center gap-8 text-center">
       <div>
@@ -18,11 +19,16 @@ export function OperationStage({ state, onStart, onStop }: OperationStageProps) 
       <StatusBadge status={state.operationStatus} />
 
       {state.operationStatus === OperationStatus.Running ? (
-        <ActionButton variant="danger" onClick={onStop}>
+        <ActionButton variant="danger" loading={pending} onClick={onStop}>
           Stop Operation
         </ActionButton>
       ) : (
-        <ActionButton variant="primary" onClick={onStart} disabled={state.operationStatus === OperationStatus.Stopped}>
+        <ActionButton
+          variant="primary"
+          loading={pending}
+          onClick={onStart}
+          disabled={state.operationStatus === OperationStatus.Stopped}
+        >
           Start Operation
         </ActionButton>
       )}

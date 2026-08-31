@@ -8,6 +8,7 @@ interface Confirmable {
 interface SingleItemChecklistProps<T extends Confirmable> {
   items: T[]
   itemNoun: string
+  pending: boolean
   onConfirm: (id: string) => void
   renderItem: (item: T) => { title: string; detail?: string }
 }
@@ -15,6 +16,7 @@ interface SingleItemChecklistProps<T extends Confirmable> {
 export function SingleItemChecklist<T extends Confirmable>({
   items,
   itemNoun,
+  pending,
   onConfirm,
   renderItem,
 }: SingleItemChecklistProps<T>) {
@@ -36,7 +38,7 @@ export function SingleItemChecklist<T extends Confirmable>({
       </div>
 
       {!allConfirmed && (
-        <ActionButton variant="primary" onClick={() => onConfirm(current.id)}>
+        <ActionButton variant="primary" loading={pending} onClick={() => onConfirm(current.id)}>
           Confirm Check
         </ActionButton>
       )}

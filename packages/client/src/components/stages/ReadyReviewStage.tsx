@@ -3,10 +3,11 @@ import { ActionButton } from '../shared/ActionButton'
 
 interface ReadyReviewStageProps {
   state: WorkflowState
+  pending: boolean
   onProceed: () => void
 }
 
-export function ReadyReviewStage({ state, onProceed }: ReadyReviewStageProps) {
+export function ReadyReviewStage({ state, pending, onProceed }: ReadyReviewStageProps) {
   return (
     <div className="flex flex-col gap-6">
       <div className="rounded-2xl border-2 border-emerald-300 bg-emerald-50 p-8 text-center">
@@ -18,7 +19,7 @@ export function ReadyReviewStage({ state, onProceed }: ReadyReviewStageProps) {
       <ReviewSection title="Required Tools" items={state.tools.map((tool) => `${tool.toolNumber} — ${tool.type}`)} />
       <ReviewSection title="Workpiece Setup" items={state.workpiece.map((item) => item.label)} />
 
-      <ActionButton variant="primary" onClick={onProceed}>
+      <ActionButton variant="primary" loading={pending} onClick={onProceed}>
         Proceed to Operation
       </ActionButton>
     </div>

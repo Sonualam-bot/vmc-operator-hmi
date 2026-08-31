@@ -21,7 +21,7 @@ function App() {
   }
 
   return (
-    <StageShell state={workflow.state} onReset={workflow.reset}>
+    <StageShell state={workflow.state} pending={workflow.pending} onReset={workflow.reset}>
       {workflow.error && (
         <div className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm font-medium text-red-700">{workflow.error}</div>
       )}
