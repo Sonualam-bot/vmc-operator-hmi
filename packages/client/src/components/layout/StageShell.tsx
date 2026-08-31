@@ -34,7 +34,7 @@ export function StageShell({ state, onReset, children }: StageShellProps) {
             <button
               type="button"
               onClick={onReset}
-              className="text-xs font-medium text-slate-400 underline underline-offset-2 hover:text-slate-600"
+              className="cursor-pointer text-xs font-medium text-slate-400 underline underline-offset-2 hover:text-slate-600"
             >
               Reset demo
             </button>

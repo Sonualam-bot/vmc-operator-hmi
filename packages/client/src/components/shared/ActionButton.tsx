@@ -16,7 +16,7 @@ export function ActionButton({ variant = 'primary', className = '', ...rest }: A
   return (
     <button
       type="button"
-      className={`min-h-14 rounded-xl px-8 text-lg font-semibold shadow-sm transition-colors disabled:cursor-not-allowed disabled:shadow-none ${VARIANT_STYLES[variant]} ${className}`}
+      className={`min-h-14 cursor-pointer rounded-xl px-8 text-lg font-semibold shadow-sm transition-colors disabled:cursor-not-allowed disabled:shadow-none ${VARIANT_STYLES[variant]} ${className}`}
       {...rest}
     />
   )
